@@ -18,19 +18,29 @@ export default function Home() {
       .catch(error => console.log(error));
   };
 
-  const shareOnInstagram = () => {
+  const shareOnFacebook = () => {
     Share.shareSingle({
-      title: 'Compartilhar no WhatsApp',
       url: `file://${image.path}`,
-      message: 'Compartilhando no WhatsApp',
-      social: Share.Social.INSTAGRAM,
+      social: Share.Social.FACEBOOK,
     })
       .then(response => console.log(response))
       .catch(error => console.log(error));
   }
 
   const pickImage = () => {
-    ImagePicker.launchImageLibrary({ title: 'teste' }, response => {
+    const options = {
+      title: 'Select Avatar',
+      takePhotoButtonTitle: 'Tirar foto',
+      chooseFromLibraryButtonTitle: 'Escolher na galeria',
+      chooseWhichLibraryTitle: 'Escolha a galeria',
+      cancelButtonTitle: 'Cancelar',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+
+    ImagePicker.showImagePicker(options, response => {
       if (response.didCancel) {
         ToastAndroid.show('Cancelado pelo usuário', ToastAndroid.SHORT);
       } else if (response.error) {
@@ -52,7 +62,7 @@ export default function Home() {
         <PickerButton title="share image" onPress={() => shareImage()} disabled={image === null} />
       </ButtonWrapper>
       <ButtonWrapper>
-        <PickerButton title="share on instagram" onPress={() => shareOnInstagram()} disabled={image === null} />
+        <PickerButton title="share on facebook" onPress={() => shareOnFacebook()} disabled={image === null} />
       </ButtonWrapper>
     </Container>
   );
